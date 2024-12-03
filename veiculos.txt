@@ -1,0 +1,2 @@
+2,Chevrolet,Onyx,0.0
+3,Chevrolet,Celta,100.0
