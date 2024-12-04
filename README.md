@@ -13,14 +13,13 @@ Um sistema de gerenciamento de vendas de veículos desenvolvido em Java com inte
 ## Estrutura do Projeto
 
 sistema-vendas-veiculos/
-├── src/
-│ ├── gui/
-│ │ ├── MainWindow.java
-│ │ ├── VeiculosPanel.java
-│ │ └── ClientesPanel.java
+├── gui/
+│ ├── MainWindow.java
+│ ├── VeiculosPanel.java
+│ └── ClientesPanel.java
 │ ├── model/
-│ │ ├── Veiculo.java
-│ │ └── Cliente.java
+│ ├── Veiculo.java
+│ └── Cliente.java
 │ └── dao/
 │ └── ArquivoDAO.java
 ├── veiculos.txt
@@ -46,7 +45,7 @@ sistema-vendas-veiculos/
 2. Compile o projeto:
 
    ```bash
-   javac src/gui/*.java src/model/*.java src/dao/*.java
+   javac gui/*.java model/*.java dao/*.java
    ```
 
 3. Execute o programa:
