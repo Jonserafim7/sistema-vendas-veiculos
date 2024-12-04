@@ -193,17 +193,23 @@ public class VeiculosPanel extends JPanel {
     private void preencherCamposComVeiculoSelecionado() {
         int selectedRow = tabelaVeiculos.getSelectedRow();
         if (selectedRow != -1) {
-            int id = (int) tabelaVeiculos.getValueAt(selectedRow, 0);
-            String marca = (String) tabelaVeiculos.getValueAt(selectedRow, 1);
-            String modelo = (String) tabelaVeiculos.getValueAt(selectedRow, 2);
-            String valorStr = (String) tabelaVeiculos.getValueAt(selectedRow, 3);
-
-            // Remove currency symbol and parse value
-            double valor = Double.parseDouble(valorStr.replace("R$", "").replace(".", "").replace(",", "."));
-
-            marcaField.setText(marca);
-            modeloField.setText(modelo);
-            valorField.setValue(valor);
+            try {
+                // Pegar os valores da linha selecionada
+                marcaField.setText((String) tabelaVeiculos.getValueAt(selectedRow, 1));
+                modeloField.setText((String) tabelaVeiculos.getValueAt(selectedRow, 2));
+                
+                // Buscar o veículo original para pegar o valor correto
+                int id = (int) tabelaVeiculos.getValueAt(selectedRow, 0);
+                List<Veiculo> veiculos = arquivoDAO.lerVeiculos();
+                for (Veiculo v : veiculos) {
+                    if (v.getId() == id) {
+                        valorField.setValue(v.getValor());
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Erro ao preencher campos: " + e.getMessage());
+            }
         }
     }
 }

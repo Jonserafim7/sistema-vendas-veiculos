@@ -93,6 +93,12 @@ public class ClientesPanel extends JPanel {
         atualizarComboBoxVeiculos();
         atualizarTabela();
         updateNextId();
+        
+        tabelaClientes.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting() && tabelaClientes.getSelectedRow() != -1) {
+                preencherCamposComClienteSelecionado();
+            }
+        });
     }
 
     private void atualizarComboBoxVeiculos() {
@@ -136,7 +142,29 @@ public class ClientesPanel extends JPanel {
             JOptionPane.showMessageDialog(this, "Selecione um cliente para alterar!");
             return;
         }
-        // Implementar lógica de alteração
+
+        try {
+            int id = (int) tabelaClientes.getValueAt(selectedRow, 0);
+            String nome = nomeField.getText();
+            String telefone = telefoneField.getText();
+            String dataCompra = dataCompraField.getText();
+            String veiculoSelecionado = (String) veiculoComboBox.getSelectedItem();
+            
+            if (nome.isEmpty() || telefone.isEmpty() || dataCompra.isEmpty() || veiculoSelecionado == null) {
+                JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
+                return;
+            }
+
+            int idVeiculo = veiculosMap.get(veiculoSelecionado);
+            Cliente clienteAtualizado = new Cliente(id, nome, telefone, dataCompra, idVeiculo);
+            
+            arquivoDAO.alterarCliente(clienteAtualizado);
+            atualizarTabela();
+            limparCampos();
+            JOptionPane.showMessageDialog(this, "Cliente alterado com sucesso!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao alterar cliente: " + e.getMessage());
+        }
     }
 
     private void excluirCliente() {
@@ -196,6 +224,28 @@ public class ClientesPanel extends JPanel {
                     .mapToInt(Cliente::getId)
                     .max()
                     .getAsInt() + 1;
+        }
+    }
+
+    private void preencherCamposComClienteSelecionado() {
+        int selectedRow = tabelaClientes.getSelectedRow();
+        if (selectedRow != -1) {
+            String nome = (String) tabelaClientes.getValueAt(selectedRow, 1);
+            String telefone = (String) tabelaClientes.getValueAt(selectedRow, 2);
+            String dataCompra = (String) tabelaClientes.getValueAt(selectedRow, 3);
+            String veiculoNome = (String) tabelaClientes.getValueAt(selectedRow, 4);
+
+            nomeField.setText(nome);
+            telefoneField.setText(telefone);
+            dataCompraField.setText(dataCompra);
+            
+            // Selecionar o veículo correto no combobox
+            for (int i = 0; i < veiculoComboBox.getItemCount(); i++) {
+                if (veiculoComboBox.getItemAt(i).equals(veiculoNome)) {
+                    veiculoComboBox.setSelectedIndex(i);
+                    break;
+                }
+            }
         }
     }
 }

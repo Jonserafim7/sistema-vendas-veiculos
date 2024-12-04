@@ -39,7 +39,7 @@ sistema-vendas-veiculos/
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/seu-usuario/sistema-vendas-veiculos.git
+   git clone https://github.com/Jonserafim7/sistema-vendas-veiculos.git
    cd sistema-vendas-veiculos
    ```
 

@@ -1,2 +1,2 @@
-2,Chevrolet,Onyx,0.0
-3,Chevrolet,Celta,100.0
+4,Chevrolet,Cobalt,19000.0
+6,Renault,Kardian,105000.0
